@@ -1,0 +1,43 @@
+dn: cn=imediasun lopushanskyi,dc=example,dc=org
+objectClass: top
+objectClass: inetOrgPerson
+employeeNumber: 1000515
+mail: basf_admin@gmail.com
+sn: lopushanskyi
+displayName: imediasun
+o: Example Corporation
+cn: imediasun lopushanskyi
+userPassword: sunimedia
+
+dn: cn=devmagellan lopushanskyi,dc=example,dc=org
+objectClass: top
+objectClass: inetOrgPerson
+employeeNumber: 1000516
+mail: basf_user@gmail.com
+sn: lopushanskyi
+displayName: devmagellan
+o: Example Corporation
+cn: devmagellan lopushanskyi
+userPassword: sunimedia
+
+dn: cn=backend lopushanskyi,dc=example,dc=org
+objectClass: top
+objectClass: inetOrgPerson
+employeeNumber: 1000517
+mail: lab_owner@gmail.com
+sn: lopushanskyi
+displayName: backend
+o: Example Corporation
+cn: backend lopushanskyi
+userPassword: sunimedia
+
+dn: cn=country lopushanskyi,dc=example,dc=org
+objectClass: top
+objectClass: inetOrgPerson
+employeeNumber: 1000515
+mail: basf_country_admin@gmail.com
+sn: lopushanskyi
+displayName: country
+o: Example Corporation
+cn: country lopushanskyi
+userPassword: sunimedia

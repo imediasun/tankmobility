@@ -1,0 +1,24 @@
+name: Deploy DEV
+
+on:
+  push:
+    branches: [dev]
+  workflow_dispatch:
+
+jobs:
+  Trigger-DEV-Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: curl
+        uses: wei/curl@v1.1.1
+        with:
+          args: -X GET $DEPLOY_URL
+        env:
+          DEPLOY_URL: ${{ secrets.DELTA_DEPLOY_DEV }}
+      - name: front_curl
+        uses: wei/curl@v1.1.1
+        with:
+          args: -X GET $DEPLOY_FRONT_URL
+        env:
+          DEPLOY_URL: ${{ secrets.DELTA_DEPLOY_FRONT_DEV }}
+

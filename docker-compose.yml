@@ -1,0 +1,199 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./
+      dockerfile: docker/etc/nodejs/Dockerfile
+    working_dir: /app
+    command: ["npm", "run", "start"]
+    ports:
+      - 3000:3000
+    environment:
+      NODE_ENV: "development"
+    volumes:
+      - ./frontend:/app
+    networks:
+      - default
+
+  php-fpm:
+    env_file: .env
+    build:
+      context: ./
+      dockerfile: docker/etc/php-fpm/Dockerfile
+    environment:
+      DB_DATABASE: tankmobility
+      DB_USERNAME: user
+      DB_PASSWORD: 017dde17
+      DB_CONNECTION: pgsql
+      DATABASE_URL: "postgres://user:017dde17@postgres/tankmobility"
+      #for mac #postgres://user:017dde17@docker.for.mac.host.internal/tankmobility
+      DB_HOST: postgres
+      DB_PORT: 5432
+      KAFKA_BROKERS: kafka:9092
+    volumes:
+      - ./api-backend:/var/www
+    expose: 
+      - 8088
+    ports:
+      - "8088:8088"
+    networks:
+      default:
+        aliases:
+          - ${APP_HOST}
+    working_dir: /var/www
+    command: php artisan serve --host=0.0.0.0 --port=8088
+    depends_on:
+      - postgres
+      - kafka
+
+  zookeper:
+    image: confluentinc/cp-zookeeper:latest
+    ports:
+      - "2185:2181"
+    environment:
+      - ZOOKEEPER_CLIENT_PORT=2181
+    volumes:
+      - "./api-backend/storage/zookeeper/data:/var/lib/zookeeper/data"
+      - "./api-backend/storage/zookeeper/log:/var/lib/zookeeper/log"
+      - "./api-backend/storage/zookeeper/secrets:/var/lib/zookeeper/secrets"
+    networks:
+      - default
+    user: root
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    environment:
+      - KAFKA_ZOOKEEPER_CONNECT=zookeper:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+    depends_on:
+      - zookeper
+    volumes:
+      - "./api-backend/storage/kafka/data:/var/lib/kafka/data"
+      - "./api-backend/storage/kafka/secrets:/var/lib/kafka/secrets"
+    networks:
+      - default
+    user: root
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: mailhog
+    ports:
+      - 1025:1025 # smtp server
+      - 8025:8025 # web ui
+  echo:
+    image: node:latest
+    env_file: 
+      - .env
+      - echo/.env
+    volumes:
+      - ./echo:/app
+    working_dir: /app
+    command: bash -c "
+      rm -f laravel-echo-server.lock
+      && npm run start"
+    depends_on:
+      - php-fpm
+    networks:
+      - default
+
+  openldap:
+    image: osixia/openldap:1.5.0
+    container_name: openldap
+    environment:
+      LDAP_CUSTOM_LDIF_DIR: "container/service/slapd/assets/config/bootstrap/ldif/custom"
+      LDAP_SEED_INTERNAL_LDIF_PATH: "container/service/slapd/assets/config/bootstrap/ldif/custom"
+      #LDAP_ADMIN_USERNAME: "admin"
+      LDAP_LOG_LEVEL: "256"
+      LDAP_ORGANISATION: "Example Inc."
+      LDAP_DOMAIN: "example.org"
+      LDAP_BASE_DN: "dc=example,dc=org"
+      LDAP_ADMIN_PASSWORD: "admin"
+      LDAP_CONFIG_PASSWORD: "config"
+      LDAP_READONLY_USER: "false"
+      #LDAP_READONLY_USER_USERNAME: "readonly"
+      #LDAP_READONLY_USER_PASSWORD: "readonly"
+      LDAP_RFC2307BIS_SCHEMA: "false"
+      LDAP_BACKEND: "mdb"
+      LDAP_TLS: "false"
+      #LDAP_TLS_CRT_FILENAME: "ldap.crt"
+      #LDAP_TLS_KEY_FILENAME: "ldap.key"
+      #LDAP_TLS_DH_PARAM_FILENAME: "dhparam.pem"
+      #LDAP_TLS_CA_CRT_FILENAME: "ca.crt"
+      #LDAP_TLS_ENFORCE: "false"
+      #LDAP_TLS_CIPHER_SUITE: "SECURE256:-VERS-SSL3.0"
+      #LDAP_TLS_VERIFY_CLIENT: "demand"
+      #LDAP_REPLICATION: "false"
+      #LDAP_REPLICATION_CONFIG_SYNCPROV: 'binddn="cn=admin,cn=config" bindmethod=simple credentials="$$LDAP_CONFIG_PASSWORD" searchbase="cn=config" type=refreshAndPersist retry="60 +" timeout=1 starttls=critical'
+      #LDAP_REPLICATION_DB_SYNCPROV: 'binddn="cn=admin,$$LDAP_BASE_DN" bindmethod=simple credentials="$$LDAP_ADMIN_PASSWORD" searchbase="$$LDAP_BASE_DN" type=refreshAndPersist interval=00:00:00:10 retry="60 +" timeout=1 starttls=critical'
+      #LDAP_REPLICATION_HOSTS: "#PYTHON2BASH:['ldap://ldap.example.org','ldap://ldap2.example.org']"
+      KEEP_EXISTING_CONFIG: "false"
+      LDAP_REMOVE_CONFIG_AFTER_SETUP: "true"
+      LDAP_SSL_HELPER_PREFIX: "ldap"
+      LDAP_REPLICATION_HOSTS: "ldap://ldap.example.org"
+
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./docker/etc/ldap/ldapStorage:/var/lib/ldap
+      - ./docker/etc/ldap/ldapConfiguration:/etc/ldap/slapd.d
+      - ./docker/etc/ldap/ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom:ro
+    ports:
+      - "389:389"
+      - "636:636"
+    # For replication to work correctly, domainname and hostname must be
+    # set correctly so that "hostname"."domainname" equates to the
+    # fully-qualified domain name for the host.
+    domainname: "example.org"
+    hostname: "ldap-server"
+    command: --copy-service
+    networks:
+      - default
+
+  ldap-seed:
+    image: osixia/openldap
+    volumes:
+      - ./docker/etc/ldap/ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom:ro
+    links:
+      - openldap
+    entrypoint: sh -c '/container/service/slapd/assets/config/bootstrap/ldif/custom/addAll.sh'
+    networks:
+      - default
+
+  phpldapadmin:
+    image: osixia/phpldapadmin:latest
+    container_name: phpldapadmin
+    environment:
+      PHPLDAPADMIN_LDAP_HOSTS: "openldap"
+      PHPLDAPADMIN_HTTPS: "false"
+    ports:
+      - "8080:80"
+    depends_on:
+      - openldap
+    networks:
+      - default
+
+  postgres:
+    image: postgres:14.0
+    restart: always
+    environment:
+      POSTGRES_DB: tankmobility
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: 017dde17
+    ports:
+      - "5432:5432"
+    volumes:
+      - tankmobility-postgresql:/var/lib/postgresql/data
+      #- ./docker/etc/db:/docker-entrypoint-initdb.d
+    networks:
+      - default
+
+volumes:
+  tankmobility-postgresql:
+  ldapStorage:
+  ldapConfiguration:
+
+
+networks:
+  default:

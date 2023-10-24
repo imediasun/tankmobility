@@ -1,0 +1,94 @@
+FROM php:7.4-fpm
+
+RUN apt-get update > /dev/null && apt-get install -y \
+   git \
+   unzip \
+   libjpeg-dev \
+   libxpm-dev \
+   libwebp-dev \
+   libfreetype6-dev \
+   libjpeg62-turbo-dev \
+   libmcrypt-dev \
+   libpng-dev \
+   zlib1g-dev \
+   libzip-dev \
+   libicu-dev \
+   jpegoptim \
+   g++ \
+   libxrender1 \
+   libfontconfig \
+   libxml2-dev \
+   libxslt-dev \
+   libicu-dev \
+   nano \
+   cron \
+   wget \
+   acl \
+   libldap2-dev
+RUN rm -rf /var/lib/apt/lists/* && \
+       docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
+       docker-php-ext-install ldap
+
+
+RUN docker-php-ext-configure intl \
+   && docker-php-ext-install intl > /dev/null \
+   && docker-php-ext-install zip > /dev/null \
+   && docker-php-ext-install bcmath > /dev/null \
+   && docker-php-ext-install gd > /dev/null \
+   && docker-php-ext-install dom > /dev/null\
+	&& docker-php-ext-install	xmlrpc > /dev/null\
+    && docker-php-ext-install  xml > /dev/null\
+	&& docker-php-ext-install	xsl > /dev/null \
+	    && docker-php-ext-install mysqli > /dev/null \
+	    && docker-php-ext-install pdo > /dev/null \
+	    && docker-php-ext-install pdo_mysql > /dev/null \
+      && docker-php-ext-enable mysqli
+RUN pecl install xdebug-2.8.1 \
+    && docker-php-ext-enable xdebug
+RUN pecl install -o -f redis \
+    && docker-php-ext-enable redis
+RUN pecl install mcrypt-1.0.3 \
+   && docker-php-ext-enable mcrypt \
+   && docker-php-ext-enable ldap
+RUN apt-get update && apt-get -y install bsdtar libaio1 && \
+ wget -qO- https://raw.githubusercontent.com/caffeinalab/php-fpm-oci8/master/oracle/instantclient-basic-linux.x64-12.2.0.1.0.zip | bsdtar -xvf- -C /usr/local && \
+ wget -qO- https://raw.githubusercontent.com/caffeinalab/php-fpm-oci8/master/oracle/instantclient-sdk-linux.x64-12.2.0.1.0.zip | bsdtar -xvf-  -C /usr/local && \
+ wget -qO- https://raw.githubusercontent.com/caffeinalab/php-fpm-oci8/master/oracle/instantclient-sqlplus-linux.x64-12.2.0.1.0.zip | bsdtar -xvf- -C /usr/local && \
+ ln -s /usr/local/instantclient_12_2 /usr/local/instantclient && \
+ ln -s /usr/local/instantclient/libclntsh.so.* /usr/local/instantclient/libclntsh.so && \
+ ln -s /usr/local/instantclient/lib* /usr/lib && \
+ ln -s /usr/local/instantclient/sqlplus /usr/bin/sqlplus && \
+ docker-php-ext-configure oci8 --with-oci8=instantclient,/usr/local/instantclient && \
+ docker-php-ext-install oci8 && \
+ rm -rf /var/lib/apt/lists/* && \
+ php -v
+
+RUN wget http://php.net/distributions/php-7.4.15.tar.gz && \
+    mkdir php_oci && \
+    mv php-7.4.15.tar.gz ./php_oci
+WORKDIR php_oci
+RUN tar xfvz php-7.4.15.tar.gz
+WORKDIR php-7.4.15/ext/pdo_oci
+RUN php -v
+RUN phpize && \
+    ./configure --with-pdo-oci=instantclient,/usr/local/instantclient,12.1 && \
+    make && \
+    make install && \
+    echo extension=pdo_oci.so > /usr/local/etc/php/conf.d/pdo_oci.ini && \
+    php -v
+
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN usermod -u 1000 www-data
+RUN chown -R www-data:1000 /var/www
+
+
+WORKDIR /var/www
+COPY . /var/www
+#RUN chmod -R o+w /var/www
+# Install Composer.
+RUN chmod -R o+w /var/www/storage
+#USER www-data
+EXPOSE 9000
+CMD ["php-fpm", "--nodaemonize"]
+

@@ -1,0 +1,1642 @@
+{
+	"info": {
+		"_postman_id": "11104726-042f-4616-9e64-b80289ecd583",
+		"name": "BASFTankMobility",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9456182"
+	},
+	"item": [
+		{
+			"name": "Crafter",
+			"item": [
+				{
+					"name": "Generate user token",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const res = pm.response.json();\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"panel_token\", res.access_token)\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "apiKey",
+								"value": "{{client_secret}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"basf_admin@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Me",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var expectedObjectType = [\"User\"];\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(`Response Object is ${jsonData.data.object}`, function ()  {\r",
+									" pm.expect(jsonData.data.object).to.be.oneOf(\r",
+									"    expectedObjectType,\r",
+									"    `did not expect response status to be ${jsonData.data.object}.`\r",
+									"  );\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{panel_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "apiKey",
+								"value": "ahycuDgxWT66bVowV2ddAaJXa4XXr4MBiFYFn8QH",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/me",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register new User",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const res = pm.response.json();\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{panel_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "apiKey",
+								"value": "ahycuDgxWT66bVowV2ddAaJXa4XXr4MBiFYFn8QH",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"{{n}}.{{apostrof_email}}.{{email}}\",\r\n    \"password\":\"Sunimedia@1l\",\r\n    \"name\":\"AndreyLopushanskyi{{n}}.{{apostrof_email}}\",\r\n    \"gender\":\"male\"\r\n\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Create - Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var expectedObjectType = [\"Product\"];\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(`Response Object is ${jsonData.data.object}`, function ()  {\r",
+									" pm.expect(jsonData.data.object).to.be.oneOf(\r",
+									"    expectedObjectType,\r",
+									"    `did not expect response status to be ${jsonData.data.object}.`\r",
+									"  );\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{panel_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"test\",\n    \"code_basf\": \"test\",\n    \"product_type_id\": 2,\n    \"family\": \"test\",\n    \"sot_using_prod_date\": \"1995-04-07T21:49:19.000000Z\",\n    \"actual\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/products",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById - Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var expectedObjectType = [\"Product\"];\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(`Response Object is ${jsonData.data.object}`, function ()  {\r",
+									" pm.expect(jsonData.data.object).to.be.oneOf(\r",
+									"    expectedObjectType,\r",
+									"    `did not expect response status to be ${jsonData.data.object}.`\r",
+									"  );\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/products/{{n}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"products",
+								"{{n}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll - Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var expectedObjectType = [\"Product\"];\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(`Response Object is ${jsonData.data[0].object}`, function ()  {\r",
+									" pm.expect(jsonData.data[0].object).to.be.oneOf(\r",
+									"    expectedObjectType,\r",
+									"    `did not expect response status to be ${jsonData.data[0].object}.`\r",
+									"  );\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://api.tankmobility.test:8088/v1/products",
+							"protocol": "http",
+							"host": [
+								"api",
+								"tankmobility",
+								"test"
+							],
+							"port": "8088",
+							"path": [
+								"v1",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update - Product",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"test\",\n    \"code_basf\": \"test\",\n    \"product_type_id\": 2,\n    \"family\": \"test\",\n    \"sot_using_prod_date\": \"1995-04-07T21:49:19.000000Z\",\n    \"actual\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/products/5",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"products",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete - Product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/products/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"products",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ProductList",
+			"item": [
+				{
+					"name": "Create - ProductsList",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var expectedObjectType = [\"ProductsList\"];\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(`Response Object is ${jsonData.data.object}`, function ()  {\r",
+									" pm.expect(jsonData.data.object).to.be.oneOf(\r",
+									"    expectedObjectType,\r",
+									"    `did not expect response status to be ${jsonData.data.object}.`\r",
+									"  );\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{panel_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"product_id\": 1,\n    \"unit\": \"test\",\n    \"comment\": \"test\",\n    \"dose\": \"0.5\",\n    \"quantity\": \"50\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/products-list",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"products-list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll - ProductsList",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var expectedObjectType = [\"ProductsList\"];\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(`Response Object is ${jsonData.data[0].object}`, function ()  {\r",
+									" pm.expect(jsonData.data[0].object).to.be.oneOf(\r",
+									"    expectedObjectType,\r",
+									"    `did not expect response status to be ${jsonData.data[0].object}.`\r",
+									"  );\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/products-list",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"products-list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById - ProductsList",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var expectedObjectType = [\"ProductsList\"];\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(`Response Object is ${jsonData.data.object}`, function ()  {\r",
+									" pm.expect(jsonData.data.object).to.be.oneOf(\r",
+									"    expectedObjectType,\r",
+									"    `did not expect response status to be ${jsonData.data.object}.`\r",
+									"  );\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/products-list/{{n}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"products-list",
+								"{{n}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update - ProductsList",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"product_id\": \"1\",\n    \"unit\": \"test\",\n    \"comment\": \"test\",\n    \"dose\": \"0.5\",\n    \"quantity\": \"50\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/products-list/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"products-list",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete - ProductsList",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://api.tankmobility.test:8088/v1/products-list/1",
+							"protocol": "http",
+							"host": [
+								"api",
+								"tankmobility",
+								"test"
+							],
+							"port": "8088",
+							"path": [
+								"v1",
+								"products-list",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ProductMix",
+			"item": [
+				{
+					"name": "Create - ProductMix",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var expectedObjectType = [\"ProductMix\"];\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(`Response Object is ${jsonData.data.object}`, function ()  {\r",
+									" pm.expect(jsonData.data.object).to.be.oneOf(\r",
+									"    expectedObjectType,\r",
+									"    `did not expect response status to be ${jsonData.data.object}.`\r",
+									"  );\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{panel_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"products_list\":[{\n        \"product_id\":1,\n         \"unit\": \"kg/ha\",\n        \"comment\" : \"string\",\n        \"dose\":\"0.5\",\n        \"quantity\":1\n    },\n    {\n        \"product_id\":2,\n         \"unit\": \"kg/ha\",\n        \"comment\" : \"string\",\n        \"dose\":\"0.5\",\n        \"quantity\":1\n    }\n    ],\n    \"confidential_mix\": true,\n    \"exceptionaly\": true,\n    \"volume\" : \"0.5\",\n    \"ph_rate\" : \"0.5\",\n    \"water_quality\" : \"0.7\",\n    \"conclusion\" : \"testtesttest\",\n    \"physical_aspects_comment\" : \"testtesttest\",\n    \"agitation\" : true,\n    \"introduction\" : true,\n    \"global_conclusion\": \"testtesttest\",\n    \"global_conclusion_comment\": \"testtesttest\",\n    \"biologic_conclusion\": \"testtesttest\",\n    \"biologic_conclusion_comment\": \"testtesttest\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/product-mixes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"product-mixes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete - ProductMix",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/product-mixes/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"product-mixes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create - ProductMix Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var expectedObjectType = [\"ProductMix\"];\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(`Response Object is ${jsonData.data.object}`, function ()  {\r",
+									" pm.expect(jsonData.data.object).to.be.oneOf(\r",
+									"    expectedObjectType,\r",
+									"    `did not expect response status to be ${jsonData.data.object}.`\r",
+									"  );\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"confidential_mix\": true,\n    \"exceptionaly\": true,\n    \"product_list_id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/product-mixes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"product-mixes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll - ProductMix",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var expectedObjectType = [\"ProductMix\"];\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(`Response Object is ${jsonData.data[0].object}`, function ()  {\r",
+									" pm.expect(jsonData.data[0].object).to.be.oneOf(\r",
+									"    expectedObjectType,\r",
+									"    `did not expect response status to be ${jsonData.data[0].object}.`\r",
+									"  );\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/product-mixes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"product-mixes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FindById - ProductMix",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var expectedObjectType = [\"ProductMix\"];\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(`Response Object is ${jsonData.data.object}`, function ()  {\r",
+									" pm.expect(jsonData.data.object).to.be.oneOf(\r",
+									"    expectedObjectType,\r",
+									"    `did not expect response status to be ${jsonData.data.object}.`\r",
+									"  );\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/products-mixes/{{n}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"products-mixes",
+								"{{n}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FindByBasfNumber - ProductMix",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var expectedObjectType = [\"ProductMix\"];\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(`Response Object is ${jsonData.data.object}`, function ()  {\r",
+									" pm.expect(jsonData.data.object).to.be.oneOf(\r",
+									"    expectedObjectType,\r",
+									"    `did not expect response status to be ${jsonData.data.object}.`\r",
+									"  );\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/products-mixes-by-basf/{{n}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"products-mixes-by-basf",
+								"{{n}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update - ProductMix",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"confidential_mix\": true,\n    \"exceptionaly\": true,\n    \"list_products_id\": \"2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/product-mixes/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"product-mixes",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MixPhysicalAspects",
+			"item": [
+				{
+					"name": "Create - MixPhysicalAspects",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var expectedObjectType = [\"MixPhysicalAspects\"];\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(`Response Object is ${jsonData.data.object}`, function ()  {\r",
+									" pm.expect(jsonData.data.object).to.be.oneOf(\r",
+									"    expectedObjectType,\r",
+									"    `did not expect response status to be ${jsonData.data.object}.`\r",
+									"  );\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"product_mix_id\" : 2,\n    \"volume\" : \"0.5\",\n    \"ph_rate\" : \"0.5\",\n    \"water_quality\" : \"0.7\",\n    \"conclusion\" : \"testtesttest\",\n    \"comment\" : \"testtesttest\",\n    \"agitation\" : true,\n    \"introduction\" : true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/mix-physical-aspects",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"mix-physical-aspects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll - MixPhysicalAspects",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var expectedObjectType = [\"MixPhysicalAspects\"];\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(`Response Object is ${jsonData.data[0].object}`, function ()  {\r",
+									" pm.expect(jsonData.data[0].object).to.be.oneOf(\r",
+									"    expectedObjectType,\r",
+									"    `did not expect response status to be ${jsonData.data[0].object}.`\r",
+									"  );\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/mix-physical-aspects",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"mix-physical-aspects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FindById - MixPhysicalAspects",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var expectedObjectType = [\"MixPhysicalAspects\"];\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(`Response Object is ${jsonData.data.object}`, function ()  {\r",
+									" pm.expect(jsonData.data.object).to.be.oneOf(\r",
+									"    expectedObjectType,\r",
+									"    `did not expect response status to be ${jsonData.data.object}.`\r",
+									"  );\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/mix-physical-aspects/{{n}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"mix-physical-aspects",
+								"{{n}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update - MixPhysicalAspects",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mix_id\" : \"1\",\n    \"volume\" : \"0.5\",\n    \"ph_rate\" : \"0.5\",\n    \"water_quality\" : \"0.7\",\n    \"conclusion\" : \"testtesttest\",\n    \"comment\" : \"testtesttest\",\n    \"agitation\" : true,\n    \"introduction\" : true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/mix-physical-aspects/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"mix-physical-aspects",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete - MixPhysicalAspects",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/mix-physical-aspects/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"mix-physical-aspects",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MixGlobalConclusions",
+			"item": [
+				{
+					"name": "Create - MixGlobalConclusion",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var expectedObjectType = [\"MixGlobalConclusion\"];\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(`Response Object is ${jsonData.data.object}`, function ()  {\r",
+									" pm.expect(jsonData.data.object).to.be.oneOf(\r",
+									"    expectedObjectType,\r",
+									"    `did not expect response status to be ${jsonData.data.object}.`\r",
+									"  );\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"product_mix_id\": 2,\n    \"global_conclusion\": \"testtesttest\",\n    \"comment\": \"testtesttest\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/mix-global-conclusion",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"mix-global-conclusion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll - MixGlobalConclusion",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var expectedObjectType = [\"MixGlobalConclusion\"];\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(`Response Object is ${jsonData.data[0].object}`, function ()  {\r",
+									" pm.expect(jsonData.data[0].object).to.be.oneOf(\r",
+									"    expectedObjectType,\r",
+									"    `did not expect response status to be ${jsonData.data[0].object}.`\r",
+									"  );\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/mix-global-conclusion",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"mix-global-conclusion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FindById - MixGlobalConclusion",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var expectedObjectType = [\"MixGlobalConclusion\"];\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(`Response Object is ${jsonData.data.object}`, function ()  {\r",
+									" pm.expect(jsonData.data.object).to.be.oneOf(\r",
+									"    expectedObjectType,\r",
+									"    `did not expect response status to be ${jsonData.data.object}.`\r",
+									"  );\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/mix-global-conclusion/{{n}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"mix-global-conclusion",
+								"{{n}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update - MixGlobalConclusion",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mix_id\": 1,\n    \"global_conclusion\": \"testtesttest\",\n    \"comment\": \"testtesttest\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/mix-global-conclusion/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"mix-global-conclusion",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete - MixGlobalConclusion",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/mix-global-conclusion/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"mix-global-conclusion",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "BiologicCompatible",
+			"item": [
+				{
+					"name": "Create - BiologicCompatible",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mix_id\": \"1\",\n    \"biologic_conclusion\": \"testtesttest\",\n    \"comment\": \"testtesttest\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/biologic-compatible",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"biologic-compatible"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll - BiologicCompatible",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var expectedObjectType = [\"BiologicCompatible\"];\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(`Response Object is ${jsonData.data[0].object}`, function ()  {\r",
+									" pm.expect(jsonData.data[0].object).to.be.oneOf(\r",
+									"    expectedObjectType,\r",
+									"    `did not expect response status to be ${jsonData.data[0].object}.`\r",
+									"  );\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/biologic-compatible",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"biologic-compatible"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FindById - BiologicCompatible",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var expectedObjectType = [\"BiologicCompatible\"];\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(`Response Object is ${jsonData.data.object}`, function ()  {\r",
+									" pm.expect(jsonData.data.object).to.be.oneOf(\r",
+									"    expectedObjectType,\r",
+									"    `did not expect response status to be ${jsonData.data.object}.`\r",
+									"  );\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/biologic-compatible/{{n}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"biologic-compatible",
+								"{{n}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update - BiologicCompatible",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mix_id\": 1,\n    \"biologic_conclusion\": \"testtesttest\",\n    \"comment\": \"testtesttest\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/biologic-compatible/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"biologic-compatible",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete - BiologicCompatible",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/biologic-compatible/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"biologic-compatible",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TestOrder",
+			"item": [
+				{
+					"name": "Create - TestOrder",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var expectedObjectType = [\"TestOrder\"];\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(`Response Object is ${jsonData.data.object}`, function ()  {\r",
+									" pm.expect(jsonData.data.object).to.be.oneOf(\r",
+									"    expectedObjectType,\r",
+									"    `did not expect response status to be ${jsonData.data.object}.`\r",
+									"  );\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const dateTimeNow = new Date();\r",
+									"pm.globals.set(\"currentDateTime\", dateTimeNow);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{panel_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " [{  \"products_list\": [{\n        \"product_id\":1,\n         \"unit\": \"kg/ha\",\n        \"dose\":\"0.5\",\n        \"quantity\":1\n    },\n    {\n        \"product_id\":2,\n         \"unit\": \"kg/ha\",\n        \"dose\":\"0.5\",\n        \"quantity\":1\n    }],\n    \"date_of_test\": \"{{currentDateTime}}\",\n    \"volume_in_liters\" : \"0.5\",\n    \"segment\":\"segment\",\n    \"observe_order\":\"observe_order\",\n    \"comment\":\"comment\",\n    \"requester\": 1\n },\n  {  \"products_list\": [{\n        \"product_id\":3,\n         \"unit\": \"kg/ha\",\n        \"dose\":\"0.5\",\n        \"quantity\":1\n    },\n    {\n        \"product_id\":4,\n         \"unit\": \"kg/ha\",\n        \"dose\":\"0.5\",\n        \"quantity\":1\n    }],\n    \"date_of_test\": \"{{currentDateTime}}\",\n    \"volume_in_liters\" : \"0.5\",\n    \"segment\":\"segment\",\n    \"observe_order\":\"observe_order\",\n    \"comment\":\"comment\",\n    \"requester\": 1\n }\n ]\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/test-orders",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"test-orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll - OrderList",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var expectedObjectType = [\"ProductsList\"];\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(`Response Object is ${jsonData.data[0].object}`, function ()  {\r",
+									" pm.expect(jsonData.data[0].object).to.be.oneOf(\r",
+									"    expectedObjectType,\r",
+									"    `did not expect response status to be ${jsonData.data[0].object}.`\r",
+									"  );\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/products-list",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"products-list"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://api.tankmobility.test:8088",
+			"type": "string"
+		},
+		{
+			"key": "panel_token",
+			"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMTk1MGQ5NTIyNGUwMGI4ZDJmMmFlMjc5YzU0MjQ4MzI3ODdkYjVkZDMyZWI2MjlkZDVhOTQxMzVhODdlYjEzZjFlZDJmMDUzYTY0OGRjYWUiLCJpYXQiOjE2Njc1MDI3NDQuODc0MDYxLCJuYmYiOjE2Njc1MDI3NDQuODc0MDYzLCJleHAiOjE2Njc1ODkxNDQuODYzNjc5LCJzdWIiOiI1OSIsInNjb3BlcyI6W119.B3_Qqs7Xp2xCmaoHfJ0_2fPq4PuDA6as9SkMUl3ZIaOUwfaU7eLw3Zh3Sf8AQZzlEmjHBM1TQgRtcWl7CLcROdxbjrUIvn5NrTvZejoqiD1tHluRX1WFLr0MW6mmMVdrA5Nh49Ve5c5nQUVIR-aJHgkAciB5DbEG1fgS8l1j-8UnNIqjRnhR_zqU_SzNlBR-0mm8MPnzS6GoxnMnS7N9p0Y-BzKQddkWv6isTD5M4AwyiFLQwWl7_s3mRZUf3yBkYm_6UWZVzf2kAp-YPc8QlxwPn6EJ2wWGgj1AVCfuc1vdaBv-x8yPR3j79re7m1a4ItddnbzNYpjBU3brZLYo1kUpgAH4pJYAMsy7i2h58xmUZFHyGWI4EBkw955WWoxaMB2kxE0-qaKNbLfcqiBoEcJN--Z0tL-r_h9Y6RZaD04b-OvW0JUfuC6zc5jvLbjokWconnZpJ3oAcEz5ZDF3nuY9Wk2fTmsFwDGnjKl8c9t8P0rjfC7nUc0JH9Illwb-vwnQOoE5pStPgGWD0skBAVrJlAcXWvJ4bCho8Pdbg97rm9JsGFPk1UkiyeWpZMNWeWzEtgxGbCJaykpGyUoegS3XPVPDwkTpVzE-zT1f8-4F486CWtg-grmNzU7hXtsJycqxA_2PP_IdBk4paJozOZGCgP8YSV9-bCBY_Jl_DbU"
+		},
+		{
+			"key": "client_secret",
+			"value": "QKPEhPJQzDack1aGVvHC1WdTXxb7wr3S96i9ER15",
+			"type": "string"
+		},
+		{
+			"key": "email",
+			"value": "test@upthrust.eu",
+			"type": "string"
+		},
+		{
+			"key": "n",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "apostrof_email",
+			"value": "25",
+			"type": "string"
+		}
+	]
+}

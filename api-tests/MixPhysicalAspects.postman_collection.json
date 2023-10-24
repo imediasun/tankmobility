@@ -1,0 +1,141 @@
+{
+	"info": {
+		"_postman_id": "f3c736e9-7169-4f16-b1dc-31e3f78bb21c",
+		"name": "MixPhysicalAspects",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18791469"
+	},
+	"item": [
+		{
+			"name": "Create - MixPhysicalAspects",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"mix_id\" : \"1\",\n    \"volume\" : \"0.5\",\n    \"ph_rate\" : \"0.5\",\n    \"water_quality\" : \"0.7\",\n    \"conclusion\" : \"testtesttest\",\n    \"comment\" : \"testtesttest\",\n    \"agitation\" : true,\n    \"introduction\" : true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://api.tankmobility.test:8088/v1/mix-physical-aspects",
+					"protocol": "http",
+					"host": [
+						"api",
+						"tankmobility",
+						"test"
+					],
+					"port": "8088",
+					"path": [
+						"v1",
+						"mix-physical-aspects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete - MixPhysicalAspects",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://api.tankmobility.test:8088/v1/mix-physical-aspects/1",
+					"protocol": "http",
+					"host": [
+						"api",
+						"tankmobility",
+						"test"
+					],
+					"port": "8088",
+					"path": [
+						"v1",
+						"mix-physical-aspects",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAll - MixPhysicalAspects",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://api.tankmobility.test:8088/v1/mix-physical-aspects",
+					"protocol": "http",
+					"host": [
+						"api",
+						"tankmobility",
+						"test"
+					],
+					"port": "8088",
+					"path": [
+						"v1",
+						"mix-physical-aspects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update - MixPhysicalAspects",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"mix_id\" : \"1\",\n    \"volume\" : \"0.5\",\n    \"ph_rate\" : \"0.5\",\n    \"water_quality\" : \"0.7\",\n    \"conclusion\" : \"testtesttest\",\n    \"comment\" : \"testtesttest\",\n    \"agitation\" : true,\n    \"introduction\" : true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://api.tankmobility.test:8088/v1/mix-physical-aspects/2",
+					"protocol": "http",
+					"host": [
+						"api",
+						"tankmobility",
+						"test"
+					],
+					"port": "8088",
+					"path": [
+						"v1",
+						"mix-physical-aspects",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FindById - MixPhysicalAspects",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://api.tankmobility.test:8088/v1/mix-physical-aspects/7",
+					"protocol": "http",
+					"host": [
+						"api",
+						"tankmobility",
+						"test"
+					],
+					"port": "8088",
+					"path": [
+						"v1",
+						"mix-physical-aspects",
+						"7"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

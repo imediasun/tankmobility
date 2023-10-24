@@ -1,0 +1,26 @@
+version: '3.3'
+
+services:
+
+  ## docker-compose --env-file .env.apikeys \
+  ##  -f docker-compose.ci.yml \
+  ##  run --rm -T newman
+  newman:
+    image: postman/newman:alpine
+    volumes:
+      - ./api-tests:/etc/newman
+    command: >-
+      run chat-api.postman_collection.json
+        --env-var base_url=${BASE_URL:-https://api.elasticgate.com}
+        --env-var data_run_num=${GO_PIPELINE_COUNTER:-1}${GO_STAGE_COUNTER:-1}
+        --env-var client_key=${Key:?err}
+        --env-var client_secret=${Secret:?err}
+        --delay-request ${DELAY:-200}
+        --bail
+        --color on
+        --folder "Client API"
+        --folder "Panel API"
+        --folder "Widget API"
+
+
+

@@ -1,0 +1,1314 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "BASF TankMobility API",
+        "version": "0.1"
+    },
+    "paths": {
+        "/v1/products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get all products",
+                "description": "Returns all products with pagination",
+                "operationId": "getAllProducts",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Product"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Product",
+                "description": "Returns product data",
+                "operationId": "createTestOrder",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateProductRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Product"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/products/{id}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "find Product By Id",
+                "description": "Returns specific product with details",
+                "operationId": "findProductById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of Product",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/TestOrder"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/v1/products-list": {
+            "get": {
+                "tags": [
+                    "ProductsList"
+                ],
+                "summary": "Get all products lists",
+                "description": "Returns all products list with pagination",
+                "operationId": "getAllProductsList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ProductsList"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "ProductsList"
+                ],
+                "summary": "Product",
+                "description": "Returns products list data",
+                "operationId": "createProductsList",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateProductsListRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/ProductsList"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/products-list/{id}": {
+            "get": {
+                "tags": [
+                    "ProductsList"
+                ],
+                "summary": "find Products List By Id",
+                "description": "Returns specific products list with details",
+                "operationId": "findProductsListById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of ProductsList",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/TestOrder"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/v1/product-mixes": {
+            "post": {
+                "tags": [
+                    "ProductMix"
+                ],
+                "summary": "ProductMix",
+                "description": "Returns product mix data",
+                "operationId": "createProductMix",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateProductMixRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/CreateMixDTO"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/test-orders": {
+            "get": {
+                "tags": [
+                    "Test Orders"
+                ],
+                "summary": "Get all test orders",
+                "description": "Returns all test orders with pagination",
+                "operationId": "getAllTestOrders",
+                "parameters": [
+                    {
+                        "name": "orders-to-be-performed",
+                        "in": "path",
+                        "description": "orders-to-be-performed",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CreateTestOrderDTO"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Test Order"
+                ],
+                "summary": "Test Order",
+                "description": "Returns test order data",
+                "operationId": "createTestOrder",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateTestOrderRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/CreateTestOrderDTO"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/test-orders/{id}": {
+            "get": {
+                "tags": [
+                    "Test Orders"
+                ],
+                "summary": "find Test Order By Id",
+                "description": "Returns specific test order with details",
+                "operationId": "findTestOrderById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of TestOrder",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/TestOrder"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/v1/me": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "GetMyUserUserRequest",
+                "description": "Returns user by nickname",
+                "operationId": "GetMyUserUserRequest",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/v1/menu": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "GetMenuRequest",
+                "description": "Returns user by nickname",
+                "operationId": "GetMenuRequest",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "user_id": {
+                                            "type": "integer",
+                                            "default": "1"
+                                        },
+                                        "user_name": {
+                                            "type": "string",
+                                            "default": "lopushanskyi andrey"
+                                        },
+                                        "user_email": {
+                                            "type": "string",
+                                            "default": "basf_test@basf.com"
+                                        },
+                                        "menu": {
+                                            "type": "array",
+                                            "items": {}
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CommentsCompatibility": {
+                "title": "CommentsCompatibility",
+                "description": "CommentsCompatibility model"
+            },
+            "DepositCompatibility": {
+                "title": "DepositCompatibility",
+                "description": "DepositCompatibility model"
+            },
+            "FilterOneCompatibility": {
+                "title": "FilterOneCompatibility",
+                "description": "FilterOneCompatibility model"
+            },
+            "FilterTreeCompatibility": {
+                "title": "ilterTreeCompatibility",
+                "description": "ilterTreeCompatibility model"
+            },
+            "FilterTwoCompatibility": {
+                "title": "FilterTwoCompatibility",
+                "description": "FilterTwoCompatibility model"
+            },
+            "MousseCompatibility": {
+                "title": "MousseCompatibility",
+                "description": "MousseCompatibility model"
+            },
+            "TestCompatibility": {
+                "title": "TestOrder",
+                "description": "TestOrder model"
+            },
+            "FillInResultsRequest": {
+                "title": "FillInResultsRequest",
+                "description": "FillInResultsRequest",
+                "required": [
+                    "test_id",
+                    "deposit",
+                    "mousse",
+                    "number_of_reversals",
+                    "filter300",
+                    "filter150",
+                    "filter50",
+                    "comment",
+                    "compatibility_conclusion"
+                ],
+                "properties": {
+                    "test_id": {
+                        "title": "test_id",
+                        "description": "test_id",
+                        "type": "integer"
+                    },
+                    "compatibility_conclusion": {
+                        "title": "compatibility_conclusion",
+                        "description": "compatibility_conclusion",
+                        "type": "bool"
+                    },
+                    "deposit": {
+                        "title": "deposit",
+                        "description": "deposit",
+                        "type": "array",
+                        "items": {
+                            "type": "bool"
+                        }
+                    },
+                    "mousse": {
+                        "title": "mousse",
+                        "description": "mousse",
+                        "type": "array",
+                        "items": {
+                            "type": "bool"
+                        }
+                    },
+                    "number_of_reversals": {
+                        "title": "number_of_reversals",
+                        "description": "number_of_reversals",
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
+                    },
+                    "filter300": {
+                        "title": "filter300",
+                        "description": "filter300",
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
+                    },
+                    "filter150": {
+                        "title": "filter150",
+                        "description": "filter150",
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
+                    },
+                    "filter50": {
+                        "title": "filter50",
+                        "description": "filter50",
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
+                    },
+                    "comment": {
+                        "title": "comment",
+                        "description": "comment0",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Product": {
+                "title": "Product",
+                "description": "Product model"
+            },
+            "ProductType": {
+                "title": "ProductType",
+                "description": "ProductType model"
+            },
+            "ProductsList": {
+                "title": "ProductsList",
+                "description": "ProductsList model",
+                "properties": {
+                    "id": {
+                        "title": "id",
+                        "type": "integer",
+                        "format": "integer",
+                        "default": "1"
+                    },
+                    "product_id": {
+                        "title": "product_id",
+                        "type": "integer",
+                        "format": "integer",
+                        "default": "1"
+                    },
+                    "code_basf": {
+                        "title": "code_basf",
+                        "type": "integer",
+                        "format": "integer",
+                        "default": "1"
+                    },
+                    "unit": {
+                        "title": "unit",
+                        "type": "string",
+                        "format": "string",
+                        "default": "kg/ha"
+                    },
+                    "comment": {
+                        "title": "comment",
+                        "type": "string",
+                        "format": "string",
+                        "default": "comment"
+                    },
+                    "dose": {
+                        "title": "dose",
+                        "type": "number",
+                        "format": "string",
+                        "default": "0.5"
+                    },
+                    "quantaty": {
+                        "title": "quantaty",
+                        "type": "integer",
+                        "format": "string",
+                        "default": "1"
+                    },
+                    "entity": {
+                        "title": "entity",
+                        "type": "string",
+                        "format": "string",
+                        "default": "MIX"
+                    },
+                    "created_at": {
+                        "title": "created_at",
+                        "type": "string",
+                        "format": "datetime",
+                        "default": "2023-02-14T11:26:48.000000Z"
+                    },
+                    "updated_at": {
+                        "title": "updated_at",
+                        "type": "string",
+                        "format": "datetime",
+                        "default": "2023-02-14T11:26:48.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "CreateProductRequest": {
+                "title": "CreateProductRequest",
+                "description": "CreateProductRequest",
+                "required": [],
+                "type": "object"
+            },
+            "CreateProductsListRequest": {
+                "title": "CreateProductsListRequest",
+                "description": "CreateProductsListRequest",
+                "required": [],
+                "type": "object"
+            },
+            "CreateMixDTO": {
+                "title": "CreateMixDTO",
+                "description": "ProductMix data transfer object",
+                "properties": {
+                    "productsListData": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProductsList"
+                        }
+                    },
+                    "confidential_mix": {
+                        "title": "confidential_mix",
+                        "description": "confidentialMix",
+                        "format": "array",
+                        "example": "true"
+                    },
+                    "physicalAspectsData": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/MixPhysicalAspects"
+                        }
+                    },
+                    "globalConclusionData": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/MixGlobalConclusion"
+                        }
+                    },
+                    "biologicConclusionData": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/BiologicCompatible"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "BiologicCompatible": {
+                "title": "BiologicCompatible",
+                "description": "BiologicCompatible model",
+                "properties": {
+                    "object": {
+                        "title": "object",
+                        "type": "string",
+                        "format": "string",
+                        "default": "BiologicCompatible"
+                    },
+                    "id": {
+                        "title": "id",
+                        "type": "integer",
+                        "format": "integer",
+                        "default": "1"
+                    },
+                    "biologic_conclusion": {
+                        "title": "biologic_conclusion",
+                        "type": "string",
+                        "format": "string",
+                        "default": "biologic_conclusion"
+                    },
+                    "product_mix_id": {
+                        "title": "product_mix_id",
+                        "type": "integer",
+                        "format": "integer",
+                        "default": "1"
+                    },
+                    "comment": {
+                        "title": "comment",
+                        "type": "string",
+                        "format": "string",
+                        "default": "comment"
+                    },
+                    "created_at": {
+                        "title": "created_at",
+                        "type": "string",
+                        "format": "datetime",
+                        "default": "2023-02-14T11:26:48.000000Z"
+                    },
+                    "updated_at": {
+                        "title": "updated_at",
+                        "type": "string",
+                        "format": "datetime",
+                        "default": "2023-02-14T11:26:48.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "MixCountries": {
+                "title": "MixCountries",
+                "description": "MixCountries model"
+            },
+            "MixGlobalConclusion": {
+                "title": "MixGlobalConclusion",
+                "description": "MixGlobalConclusion model",
+                "properties": {
+                    "object": {
+                        "title": "object",
+                        "type": "string",
+                        "format": "string",
+                        "default": "MixGlobalConclusion"
+                    },
+                    "id": {
+                        "title": "id",
+                        "type": "integer",
+                        "format": "integer",
+                        "default": "1"
+                    },
+                    "global_conclusion": {
+                        "title": "global_conclusion",
+                        "type": "string",
+                        "format": "string",
+                        "default": "global_conclusion"
+                    },
+                    "product_mix_id": {
+                        "title": "product_mix_id",
+                        "type": "integer",
+                        "format": "integer",
+                        "default": "1"
+                    },
+                    "comment": {
+                        "title": "comment",
+                        "type": "string",
+                        "format": "string",
+                        "default": "comment"
+                    },
+                    "created_at": {
+                        "title": "created_at",
+                        "type": "string",
+                        "format": "datetime",
+                        "default": "2023-02-14T11:26:48.000000Z"
+                    },
+                    "updated_at": {
+                        "title": "updated_at",
+                        "type": "string",
+                        "format": "datetime",
+                        "default": "2023-02-14T11:26:48.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "MixPhysicalAspects": {
+                "title": "MixPhysicalAspects",
+                "description": "MixPhysicalAspects model",
+                "properties": {
+                    "object": {
+                        "title": "object",
+                        "type": "string",
+                        "format": "string",
+                        "default": "MixPhysicalAspects"
+                    },
+                    "id": {
+                        "title": "id",
+                        "type": "integer",
+                        "format": "integer",
+                        "default": "1"
+                    },
+                    "volume": {
+                        "title": "volume",
+                        "type": "number",
+                        "format": "float",
+                        "default": "0.5"
+                    },
+                    "ph_rate": {
+                        "title": "ph_rate",
+                        "type": "number",
+                        "format": "float",
+                        "default": "0.5"
+                    },
+                    "water_quality": {
+                        "title": "water_quality",
+                        "type": "number",
+                        "format": "float",
+                        "default": "0.8"
+                    },
+                    "comment": {
+                        "title": "comment",
+                        "type": "string",
+                        "format": "string",
+                        "default": "comment"
+                    },
+                    "conclusion": {
+                        "title": "conclusion",
+                        "type": "string",
+                        "format": "string",
+                        "default": "conclusion"
+                    },
+                    "agitation": {
+                        "title": "agitation",
+                        "type": "boolean",
+                        "format": "bool",
+                        "default": "true"
+                    },
+                    "intraduction": {
+                        "title": "intruduction",
+                        "type": "boolean",
+                        "format": "bool",
+                        "default": "true"
+                    },
+                    "product_mix_id": {
+                        "title": "product_mix_id",
+                        "type": "integer",
+                        "format": "integer",
+                        "default": "1"
+                    },
+                    "created_at": {
+                        "title": "created_at",
+                        "type": "string",
+                        "format": "datetime",
+                        "default": "2023-02-14T11:26:48.000000Z"
+                    },
+                    "updated_at": {
+                        "title": "updated_at",
+                        "type": "string",
+                        "format": "datetime",
+                        "default": "2023-02-14T11:26:48.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "ProductMix": {
+                "title": "ProductMix",
+                "description": "ProductMix model"
+            },
+            "CreateProductMixRequest": {
+                "title": "CreateProductMixRequest",
+                "description": "Product mix creation",
+                "required": [
+                    "participant"
+                ],
+                "properties": {
+                    "confidentialMix": {
+                        "title": "confidentialMix",
+                        "description": "confidentialMix",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "exceptionaly": {
+                        "title": "exceptionaly",
+                        "description": "exceptionaly",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "productsList": {
+                        "title": "productsList",
+                        "description": "Products List",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "volume": {
+                        "title": "volume",
+                        "description": "volume",
+                        "type": "number",
+                        "format": "float",
+                        "example": 0.5
+                    },
+                    "phRate": {
+                        "title": "phRate",
+                        "description": "phRate",
+                        "type": "number",
+                        "format": "float",
+                        "example": 0.5
+                    },
+                    "waterQuality": {
+                        "title": "waterQuality",
+                        "description": "waterQuality",
+                        "type": "number",
+                        "format": "float",
+                        "example": 0.5
+                    },
+                    "conclusion": {
+                        "title": "conclusion",
+                        "description": "waterQuality",
+                        "type": "string",
+                        "example": "conclusion"
+                    },
+                    "physicalAspectsComment": {
+                        "title": "comment",
+                        "description": "comment",
+                        "type": "string",
+                        "example": "comment"
+                    },
+                    "agitation": {
+                        "title": "agitation",
+                        "description": "agitation",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "introduction": {
+                        "title": "introduction",
+                        "description": "introduction",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "globalConclusion": {
+                        "title": "globalConclusion",
+                        "description": "globalConclusion",
+                        "type": "string",
+                        "example": "global_conclusion"
+                    },
+                    "globalConclusionComment": {
+                        "title": "globalConclusionComment",
+                        "description": "globalConclusionComment",
+                        "type": "string",
+                        "example": "global_conclusion_comment"
+                    },
+                    "biologicConclusion": {
+                        "title": "biologicConclusion",
+                        "description": "biologicConclusion",
+                        "type": "string",
+                        "example": "biologic_conclusion"
+                    },
+                    "biologicConclusionComment": {
+                        "title": "biologicConclusionComment",
+                        "description": "biologicConclusionComment",
+                        "type": "string",
+                        "example": "biologic_conclusion_comment"
+                    },
+                    "countries": {
+                        "title": "countries",
+                        "description": "Countries for mix generation",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "CreateTestOrderDTO": {
+                "title": "CreateTestOrderDTO",
+                "description": "TestOrder data transfer object",
+                "properties": {
+                    "order_id": {
+                        "title": "order_id",
+                        "type": "integer",
+                        "format": "integer",
+                        "default": "1"
+                    },
+                    "order_requested_by": {
+                        "title": "order_requested_by",
+                        "type": "string",
+                        "format": "integer",
+                        "default": "lopushanskyi andrey"
+                    },
+                    "order_created_at": {
+                        "title": "order_created_at",
+                        "type": "string",
+                        "format": "datetime",
+                        "default": "2023-02-14T11:26:48.000000Z"
+                    },
+                    "test_data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Test"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "GetTestOrderDTO": {
+                "title": "CreateTestOrderDTO",
+                "description": "TestOrder data transfer object",
+                "properties": {
+                    "order_id": {
+                        "title": "order_id",
+                        "type": "integer",
+                        "format": "integer",
+                        "default": "1"
+                    },
+                    "order_requested_by": {
+                        "title": "order_requested_by",
+                        "type": "string",
+                        "format": "integer",
+                        "default": "lopushanskyi andrey"
+                    },
+                    "order_created_at": {
+                        "title": "order_created_at",
+                        "type": "string",
+                        "format": "datetime",
+                        "default": "2023-02-14T11:26:48.000000Z"
+                    },
+                    "test_data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Test"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Order": {
+                "title": "Test",
+                "description": "Test model"
+            },
+            "Test": {
+                "title": "Test",
+                "description": "Test model",
+                "properties": {
+                    "object": {
+                        "title": "object",
+                        "type": "string",
+                        "format": "string",
+                        "default": "Test"
+                    },
+                    "productsListData": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProductsList"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "TestOrder": {
+                "title": "TestOrder",
+                "description": "TestOrder model"
+            },
+            "TestsProductsList": {
+                "title": "Test",
+                "description": "Test model",
+                "properties": {
+                    "object": {
+                        "title": "object",
+                        "type": "string",
+                        "format": "string",
+                        "default": "TestsProductsList"
+                    }
+                },
+                "type": "object"
+            },
+            "CreateTestOrderRequest": {
+                "title": "CreateTestOrderRequest",
+                "description": "CreateTestOrderRequest",
+                "required": [
+                    "products"
+                ],
+                "properties": {
+                    "testOrder": {
+                        "title": "products",
+                        "description": "products",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "volumeInFilters": {
+                        "title": "volume_in_filters",
+                        "description": "volume_in_filters",
+                        "type": "number",
+                        "format": "float",
+                        "example": 0.5
+                    },
+                    "segment": {
+                        "title": "segment",
+                        "description": "segment",
+                        "type": "string",
+                        "example": "segment"
+                    },
+                    "observe_order": {
+                        "title": "observe_order",
+                        "description": "observe_order",
+                        "type": "string",
+                        "example": "observe_order"
+                    },
+                    "comment": {
+                        "title": "comment",
+                        "description": "comment",
+                        "type": "string",
+                        "example": "comment"
+                    },
+                    "requester": {
+                        "title": "requester",
+                        "description": "requester user_id",
+                        "type": "integer",
+                        "example": "requester"
+                    },
+                    "dateOfTest": {
+                        "title": "date_of_test",
+                        "description": "date_of_test",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "24/05/2022"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "title": "User",
+                "description": "User model"
+            }
+        }
+    },
+    "security": [
+        []
+    ]
+}
